@@ -4,7 +4,7 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - $(aws ecr get-login --region us-west-1 --no-include-email)
+      - aws ecr get-login --region us-west-1 --no-include-email
       - REPOSITORY_URI=999936222461.dkr.ecr.us-west-1.amazonaws.com/teste123
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
@@ -15,6 +15,16 @@ phases:
     commands:
       - echo Build started on `date`
       - dotnet publish -c release -o ./build_output
+      
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest ./build_output
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG      
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
 artifacts:
   files:
     - ./**/*
