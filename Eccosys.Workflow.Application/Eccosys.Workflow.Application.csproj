@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Eccosys.Workflow.Common\Eccosys.Workflow.Common.csproj" />
+    <ProjectReference Include="..\Eccosys.Workflow.Domain\Eccosys.Workflow.Domain.csproj" />
+    <ProjectReference Include="..\Eccosys.Workflow.Infrastructure\Eccosys.Workflow.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
